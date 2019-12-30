@@ -45,16 +45,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Braintree, Version=4.16.0.0, Culture=neutral, PublicKeyToken=31b586f34d3e96c7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Braintree.4.16.0\lib\net452\Braintree.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -120,13 +133,38 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="App_Code\BraintreeConfiguration.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CheckoutsController.cs" />
+    <Compile Include="App_Code\IBraintreeConfiguration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Themes\css\app.css" />
+    <Content Include="App_Themes\css\overrides.css" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Bold.svg" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Medium.svg" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Regular.svg" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Bold-webfont.svg" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Light-webfont.svg" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Regular-webfont.svg" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Semibold-webfont.svg" />
+    <Content Include="App_Themes\images\bt-drop-in-placeholder.png" />
+    <Content Include="App_Themes\images\cards\amex.svg" />
+    <Content Include="App_Themes\images\cards\discover.svg" />
+    <Content Include="App_Themes\images\cards\mastercard.svg" />
+    <Content Include="App_Themes\images\cards\visa.svg" />
+    <Content Include="App_Themes\images\check.svg" />
+    <Content Include="App_Themes\images\fail.svg" />
+    <Content Include="App_Themes\images\favicon.png" />
+    <Content Include="App_Themes\images\paypal-demo.svg" />
+    <Content Include="App_Themes\images\paypal.svg" />
+    <Content Include="App_Themes\images\pseudoshop.svg" />
+    <Content Include="App_Themes\images\success.svg" />
+    <Content Include="App_Themes\javascript\demo.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -137,6 +175,28 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="App_Themes\css\app.css.map" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Bold.eot" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Bold.woff" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Bold.woff2" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Medium.eot" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Medium.woff" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Medium.woff2" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Regular.eot" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Regular.woff" />
+    <Content Include="App_Themes\fonts\bt-mono\bt-mono-Regular.woff2" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Bold-webfont.eot" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Bold-webfont.ttf" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Bold-webfont.woff" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Light-webfont.eot" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Light-webfont.ttf" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Light-webfont.woff" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Regular-webfont.eot" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Regular-webfont.ttf" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Regular-webfont.woff" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Semibold-webfont.eot" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Semibold-webfont.ttf" />
+    <Content Include="App_Themes\fonts\open-sans\OpenSans-Semibold-webfont.woff" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -157,11 +217,9 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Checkouts\New.cshtml" />
+    <Content Include="Views\Checkouts\Show.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

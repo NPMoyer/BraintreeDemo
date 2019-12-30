@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace braintree_demo
+namespace BraintreeDemo
 {
     public class FilterConfig
     {
