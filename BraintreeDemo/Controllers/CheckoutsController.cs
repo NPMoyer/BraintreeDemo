@@ -1,5 +1,6 @@
 ﻿using Braintree;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -104,6 +105,10 @@ namespace BraintreeDemo
                 Options = new TransactionOptionsRequest
                 {
                     SubmitForSettlement = true
+                },
+                CustomFields = new Dictionary<string, string>
+                {
+                    { "recipient_id", Request["recipientId"] }
                 }
             };
 
