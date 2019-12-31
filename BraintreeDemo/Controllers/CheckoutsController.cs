@@ -43,20 +43,33 @@ namespace BraintreeDemo
                 return RedirectToAction("New");
             }
 
+            // Create the customer
             var customerRequest = new CustomerRequest
             {
-                FirstName = "Mark",
-                LastName = "Jones",
-                Company = "Jones Co.",
-                Email = "mark.jones@example.com",
-                Fax = "419-555-1234",
-                Phone = "614-555-1234",
-                Website = "http://example.com"
+                FirstName = Request["firstName"],
+                LastName = Request["lastName"],
+                Email = Request["email"],
+                Phone = Request["phone"]
             };
             Result<Customer> customerResult = gateway.Customer.Create(customerRequest);
 
             var customerId = customerResult.Target.Id;
 
+            // Create the address
+            var addressRequest = new AddressRequest
+            {
+                FirstName = Request["firstName"],
+                LastName = Request["lastName"],
+                StreetAddress = Request["address"],
+                Locality = Request["city"],
+                Region = Request["state"],
+                PostalCode = Request["zip"],
+                CountryName = Request["country"]
+            };
+
+            Result<Address> addressResult = gateway.Address.Create(customerId, addressRequest);
+
+            // Create the payment
             PaymentMethodRequest paymentMethodRequest = new PaymentMethodRequest
             {
                 CustomerId = customerId,
@@ -69,7 +82,7 @@ namespace BraintreeDemo
 
             Result<PaymentMethod> paymentMethodResult = gateway.PaymentMethod.Create(paymentMethodRequest);
 
-            if (paymentMethodResult.Errors.Count > 0)
+            if (paymentMethodResult.Errors != null && paymentMethodResult.Errors.Count > 0)
             {
                 TempData["Flash"] = $"Error: {paymentMethodResult.Message}";
                 return RedirectToAction("New");
@@ -83,10 +96,11 @@ namespace BraintreeDemo
                 return RedirectToAction("New");
             }
 
+            // Create the transaction
             var request = new TransactionRequest
             {
                 Amount = amount,
-                PaymentMethodNonce = nonce,
+                PaymentMethodToken = paymentMethodResult.Target.Token,
                 Options = new TransactionOptionsRequest
                 {
                     SubmitForSettlement = true

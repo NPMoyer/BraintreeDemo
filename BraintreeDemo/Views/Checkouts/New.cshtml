@@ -11,14 +11,60 @@
         </header>
 
         <form id="payment-form" method="post" action="/checkouts">
-            <section>
+            <section class="user-info-section">
                 <label for="amount">
-                    <span class="input-label">Amount</span>
+                    <div class="input-wrapper">
+                        <input id="firstName" name="firstName" type="text" placeholder="First Name">
+                    </div>
+                </label>
+                <label for="amount">
+                    <div class="input-wrapper">
+                        <input id="lastName" name="lastName" type="text" placeholder="Last Name">
+                    </div>
+                </label>
+                <label for="amount">
+                    <div class="input-wrapper">
+                        <input id="email" name="email" type="email" placeholder="Email">
+                    </div>
+                </label>
+                <label for="amount">
+                    <div class="input-wrapper">
+                        <input id="phone" name="phone" type="tel" placeholder="Phone Number">
+                    </div>
+                </label>
+                <label for="amount">
+                    <div class="input-wrapper">
+                        <input id="country" name="country" type="text" placeholder="Country">
+                    </div>
+                </label>
+                <label for="amount">
+                    <div class="input-wrapper">
+                        <input id="address" name="address" type="text" placeholder="Address">
+                    </div>
+                </label>
+                <label for="amount">
+                    <div class="input-wrapper">
+                        <input id="city" name="city" type="text" placeholder="City">
+                    </div>
+                </label>
+                <label for="amount">
+                    <div class="input-wrapper">
+                        <input id="state" name="state" type="text" placeholder="State">
+                    </div>
+                </label>
+                <label for="amount">
+                    <div class="input-wrapper">
+                        <input id="zip" name="zip" type="tel" placeholder="Zip Code">
+                    </div>
+                </label>
+                <label for="amount">
                     <div class="input-wrapper amount-wrapper">
                         <input id="amount" name="amount" type="tel" min="1" placeholder="Amount">
                     </div>
                 </label>
+            </section>
 
+            <section>
                 <div class="notice-wrapper">
                     @{
                         string flash = TempData["Flash"] as string;
