@@ -6,7 +6,7 @@
         <header>
             <h1>Hi, <br>Let's test a transaction</h1>
             <p>
-                Make a test payment with Braintree using PayPal or a card
+                Make a test payment with Braintree using a card
             </p>
         </header>
 
@@ -15,9 +15,21 @@
                 <label for="amount">
                     <span class="input-label">Amount</span>
                     <div class="input-wrapper amount-wrapper">
-                        <input id="amount" name="amount" type="tel" min="1" placeholder="Amount" value="10">
+                        <input id="amount" name="amount" type="tel" min="1" placeholder="Amount">
                     </div>
                 </label>
+
+                <div class="notice-wrapper">
+                    @{
+                        string flash = TempData["Flash"] as string;
+                        if (flash != null)
+                        {
+                            <div class="show notice error notice-error">
+                                <span class="notice-message">@flash</span>
+                            </div>
+                        }
+                    }
+                </div>
 
                 <div class="bt-drop-in-wrapper">
                     <div id="bt-dropin"></div>
@@ -38,10 +50,8 @@
 
     braintree.dropin.create({
         authorization: client_token,
-        container: '#bt-dropin',
-        paypal: {
-            flow: 'vault'
-        }
+        container: '#bt-dropin'
+        // Add additional payment options here
     }, function (createErr, instance) {
         form.addEventListener('submit', function (event) {
             event.preventDefault();

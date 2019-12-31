@@ -30,6 +30,7 @@ namespace BraintreeDemo
         public ActionResult Create()
         {
             var gateway = config.GetGateway();
+            var nonce = Request["payment_method_nonce"];
             decimal amount;
 
             try
@@ -42,7 +43,46 @@ namespace BraintreeDemo
                 return RedirectToAction("New");
             }
 
-            var nonce = Request["payment_method_nonce"];
+            var customerRequest = new CustomerRequest
+            {
+                FirstName = "Mark",
+                LastName = "Jones",
+                Company = "Jones Co.",
+                Email = "mark.jones@example.com",
+                Fax = "419-555-1234",
+                Phone = "614-555-1234",
+                Website = "http://example.com"
+            };
+            Result<Customer> customerResult = gateway.Customer.Create(customerRequest);
+
+            var customerId = customerResult.Target.Id;
+
+            PaymentMethodRequest paymentMethodRequest = new PaymentMethodRequest
+            {
+                CustomerId = customerId,
+                PaymentMethodNonce = nonce,
+                Options = new PaymentMethodOptionsRequest
+                {
+                    VerifyCard = true
+                }
+            };
+
+            Result<PaymentMethod> paymentMethodResult = gateway.PaymentMethod.Create(paymentMethodRequest);
+
+            if (paymentMethodResult.Errors.Count > 0)
+            {
+                TempData["Flash"] = $"Error: {paymentMethodResult.Message}";
+                return RedirectToAction("New");
+            }
+
+            CreditCardVerification verification = paymentMethodResult.CreditCardVerification;
+
+            if (verification != null && verification.ProcessorResponseCode != "1000")
+            {
+                TempData["Flash"] = $"Error: {verification.ProcessorResponseCode}: {verification.ProcessorResponseText}";
+                return RedirectToAction("New");
+            }
+
             var request = new TransactionRequest
             {
                 Amount = amount,

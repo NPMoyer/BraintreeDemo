@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
 
-    <title>BraintreeASPExample</title>
+    <title>Braintree Demo</title>
     <link rel=stylesheet type=text/css href="/App_Themes/css/app.css">
     <link rel=stylesheet type=text/css href="/App_Themes/css/overrides.css">
     <link rel="icon" type="image/png" href="/App_Themes/images/favicon.png">
@@ -15,7 +15,7 @@
             <div class="content slim">
                 <div class="set">
                     <div class="fill">
-                        <a class="pseudoshop" href="/">PSEUDO<strong>SHOP</strong></a>
+                        <a class="pseudoshop" href="/"><strong>SIMPLE DONATION</strong></a>
                     </div>
 
                     <div class="fit">
@@ -23,18 +23,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="notice-wrapper">
-            @{
-                string flash = TempData["Flash"] as string;
-                if (flash != null)
-                {
-                    <div class="show notice error notice-error">
-                        <span class="notice-message">@flash</span>
-                    </div>
-                }
-            }
         </div>
     </header>
 
